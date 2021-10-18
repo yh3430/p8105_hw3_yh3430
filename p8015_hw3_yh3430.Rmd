@@ -19,7 +19,11 @@ knitr::opts_chunk$set(
 ```
 
 ## Problem 1
-Description of the dataset, 
+Description of the dataset
+
+The 'instacart' dataset is the order history of over 3 million online orders collected from more than 200,000 instacart users. The dataset includes `r names(instacart)`
+
+
 
 part 1 a, number of aisels - 134 items
 
@@ -102,7 +106,10 @@ top3_pvf =
   filter(n_obs > 4059) %>% 
   select(-prod_rank)
 
-top3_product = bind_rows(top3_bi, top3_dfc, top3_pvf)
+top3_product = bind_rows(top3_bi, top3_dfc, top3_pvf) %>% 
+  knitr::kable()
+
+top3_product
 ```
 
 part 4 table of Pink Lady Apples and Coffee Ice Cream
@@ -112,19 +119,58 @@ apple_cream_df =
   force(instacart) %>% 
   select(order_dow, order_hour_of_day, product_name) %>% 
   filter(product_name %in% c("Pink Lady Apples", "Coffee Ice Cream")) %>% 
-  group_by(order_dow, order_hour_of_day) %>% 
-  summarize(mean_order_hod = mean(order_hour_of_day))
-  
+  mutate(order_dow = recode(order_dow, "0" = "Sunday", "1" = "Monday", "2" = "Tuesday", "3" = "Wednesday", "4" = "Thursday", "5" = "Friday", "6" = "Saturday")) %>% 
+  group_by(order_dow, product_name) %>% 
+  summarize(mean_order_hour = mean(order_hour_of_day)) %>% 
+  pivot_wider(names_from = order_dow, values_from = mean_order_hour) %>% 
+  knitr::kable()
+apple_cream_df
+
+```
+
+## Problem 2
+
+part 1 load, clean and manipulate the BRFSS data
+
+```{r}
+data("brfss_smart2010") 
+```
+
+```{r}
+health_data_df =
+  force(brfss_smart2010) %>% 
+  janitor::clean_names() %>% 
+  filter(topic == "Overall Health") %>% 
+  filter(response %in% c("Poor", "Fair", "Good", "Very good", "Excellent")) %>% 
+  group_by(response) 
 ```
 
 
+part 2(a) states observation in 2002 and 2010
 
-Description of the data set, noting the size and structure of the data
-describing some key variables
-and giving illustrative examples of observations
+```{r}
+location_df =
+  health_data_df %>% 
+  filter(year %in% c("2002", "2010")) %>% 
+  group_by(year, locationabbr) %>% 
+  summarize(n_obs = n()) %>% 
+  filter(n_obs > 6)
+```
 
-The 'instacart' dataset is the order history of over 3 million online orders collected from more than 200,000 instacart users. The dataset includes 
+part 2(b) plot of average value within a state over time
 
+```{r}
+state_plot_df =
+  health_data_df %>% 
+  filter(response == "Excellent") %>% 
+  select(year, locationabbr, locationdesc, data_value) %>% 
+  group_by(year, locationabbr) %>% 
+  summarize(mean_state_value = mean(data_value)) %>% 
+  ggplot(aes(x = year, y = mean_state_value, group = locationabbr, color = locationabbr)) +
+  geom_line()
+
+state_plot_df
+```
 
 
  
