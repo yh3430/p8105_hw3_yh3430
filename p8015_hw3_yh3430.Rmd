@@ -9,7 +9,7 @@ Load packages and dataset
 ```{r}
 library(tidyverse)
 library(p8105.datasets)
-data("instacart")
+
 
 knitr::opts_chunk$set(
   fig.width = 8,
@@ -23,6 +23,9 @@ Description of the dataset
 
 The 'instacart' dataset is the order history of over 3 million online orders collected from more than 200,000 instacart users. The dataset includes `r names(instacart)`
 
+```{r}
+data("instacart")
+```
 
 
 part 1 a, number of aisels - 134 items
@@ -169,7 +172,11 @@ state_plot_df =
   group_by(year, locationabbr) %>% 
   summarize(mean_state_value = mean(data_value)) %>% 
   ggplot(aes(x = year, y = mean_state_value, group = locationabbr, color = locationabbr)) +
-  geom_line()
+  geom_line(alpha = .7) +
+   viridis::scale_color_viridis(
+    name = "States",
+    discrete = TRUE
+  )
 
 state_plot_df
 ```
@@ -183,20 +190,29 @@ NY_data_df =
   filter(year %in% c("2006", "2010")) %>% 
   select(year, locationabbr,locationdesc, response, data_value) %>% 
   ggplot(aes(x = response, y = data_value, group = locationdesc, color = locationdesc)) +
-  geom_point() +
+  geom_point(alpha = .7) +
   facet_wrap(~ year) +
   labs(
     title = "BRFSS NY state data plot 2006 and 2010",
     caption = "Data from SMART project"
   ) +
-  scale_color_hue(name = "NY-counties", h = c(100,300))
-
+  viridis::scale_color_viridis(
+    name = "States",
+    discrete = TRUE
+  )
 NY_data_df
 ```
 
  
 ## Problem 3
 
+part 1 load and manipulate data
+
+```{r}
+accel_data =
+  read_csv("accel_data.csv") %>% 
+  janitor::clean_names()
+```
 
 
   
