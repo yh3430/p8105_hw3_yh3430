@@ -142,7 +142,8 @@ health_data_df =
   janitor::clean_names() %>% 
   filter(topic == "Overall Health") %>% 
   filter(response %in% c("Poor", "Fair", "Good", "Very good", "Excellent")) %>% 
-  group_by(response) 
+  group_by(response)%>% 
+  ordered(response, levels = c("Poor", "Fair", "Good", "Very good", "Excellent")) 
 ```
 
 
@@ -172,6 +173,13 @@ state_plot_df =
 state_plot_df
 ```
 
+part 2(c) two panel plot from 2006 and 2010 at NY
+
+```{r}
+NY_data_df =
+  health_data_df %>% 
+  
+```
 
  
 
