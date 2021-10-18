@@ -12,7 +12,7 @@ library(p8105.datasets)
 data("instacart")
 
 knitr::opts_chunk$set(
-  fig.width = 6,
+  fig.width = 8,
   fig.asp = 1,
   out.width = "90%"
 )
@@ -132,6 +132,8 @@ apple_cream_df
 
 part 1 load, clean and manipulate the BRFSS data
 
+factor(response, levels = c("Poor", "Fair", "Good", "Very good", "Excellent"))
+
 ```{r}
 data("brfss_smart2010") 
 ```
@@ -142,8 +144,7 @@ health_data_df =
   janitor::clean_names() %>% 
   filter(topic == "Overall Health") %>% 
   filter(response %in% c("Poor", "Fair", "Good", "Very good", "Excellent")) %>% 
-  group_by(response)%>% 
-  ordered(response, levels = c("Poor", "Fair", "Good", "Very good", "Excellent")) 
+  group_by(response)  
 ```
 
 
@@ -173,15 +174,30 @@ state_plot_df =
 state_plot_df
 ```
 
-part 2(c) two panel plot from 2006 and 2010 at NY
+part 2(c) two panel plot from 2006 and 2010 at NY, order issue relate to problem 2 part 1
 
 ```{r}
 NY_data_df =
   health_data_df %>% 
-  
+  filter(locationabbr == "NY") %>% 
+  filter(year %in% c("2006", "2010")) %>% 
+  select(year, locationabbr,locationdesc, response, data_value) %>% 
+  ggplot(aes(x = response, y = data_value, group = locationdesc, color = locationdesc)) +
+  geom_point() +
+  facet_wrap(~ year) +
+  labs(
+    title = "BRFSS NY state data plot 2006 and 2010",
+    caption = "Data from SMART project"
+  ) +
+  scale_color_hue(name = "NY-counties", h = c(100,300))
+
+NY_data_df
 ```
 
  
+## Problem 3
+
+
 
   
 
