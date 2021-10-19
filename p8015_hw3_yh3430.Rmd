@@ -13,7 +13,7 @@ library(p8105.datasets)
 
 knitr::opts_chunk$set(
   fig.width = 8,
-  fig.asp = 1,
+  fig.asp = 1.5,
   out.width = "90%"
 )
 ```
@@ -269,6 +269,9 @@ accel_day
 
 part 3
 
+Majority of the activity counts of the patient below 1500. After week 1, patient have more activities. And the patient tends to have more activities in Friday. The activities on Monday increased from week 1 to 3, and decreased a small amount in week 4 and 5. The activities on Tuesday, Wednesday, Thursday increase from week 1 to week 2, and remain stable until the end.
+The activity of Saturday increase from week 1 to week1, and decreased to a small amount from week 3 to week 5. The activities on Sunday decreased from week 1 to week 5.
+
 ```{r}
 activity_plot = 
   accel_data %>% 
@@ -278,10 +281,10 @@ activity_plot =
     names_prefix = "activity_",
     values_to = "activity_count"
     ) %>% 
-  ggplot(aes(x = activity_minute, y = activity_count, group = activity_minute, color = day)) +
-    geom_line(alpha = .5) +
+  ggplot(aes(x = day_id, y = activity_count,group = activity_minute, color = day)) +
+    geom_point(alpha = .3) +
     viridis::scale_color_viridis(
-    name = "Counties",
+    name = "days",
     discrete = TRUE
   )
 
