@@ -19,11 +19,12 @@ knitr::opts_chunk$set(
 ```
 
 ## Problem 1
-Description of the dataset
+Description of the dataset, load instacart data
 
 The 'instacart' dataset is the order history of over 3 million online orders collected from more than 200,000 instacart users. The dataset includes `r names(instacart)` variables.
 
-The dataset contains 1,384,617 observations of 131,209 unique users. Each column represent a variable that indicate specific information. The aisle variable represents the name of the aisle, which includes 134 types of items. Among all the items listed in aisle, fresh vegetables, fresh fruits, and packaged vegetables fruits are the top three items ordered through Instacart. Figure in part 2 shows the online order items, which were order more than 10,000 times. The fresh vegetables and fresh fruits were order much more often than all the other items.They are almost the 5 times of the average order time of all the other items. 
+The dataset contains 1,384,617 observations of 131,209 unique users. Each column represent a variable that indicate specific information. THe produc name variable shows the name of the product that were ordered on Instacart. the department variable show the name of department where the products were located. 
+The aisle variable represents the name of the aisle, which includes 134 types of items. Among all the items listed in aisle, fresh vegetables, fresh fruits, and packaged vegetables fruits are the top three items ordered through Instacart. Figure in part 2 shows the online order items, which were order more than 10,000 times. The fresh vegetables and fresh fruits were order much more often than all the other items.They are almost the 5 times of the average order time of all the other items. 
 
 ```{r}
 data("instacart")
@@ -40,7 +41,7 @@ instacart_df =
   
 ```
 
-part 1(b), top 3 items ordered in the aisles - fresh vegetables, fresh fruits, and packaged vegetables fruits.
+part 1(b), top 3  aisles ordered are fresh vegetables, fresh fruits, and packaged vegetables fruits.The fresh vegetables and fresh fruits were ordered more 150,000 times. 
 
 ```{r}
 instacart_most_aisle =
@@ -58,7 +59,7 @@ instacart_most_aisle =
 
 part 2 plot of number of items ordered in each aisles
 
-The fresh vegetables and fresh fruits were order much more often than all the other items. They are almost the 5 times of the average order time of all the other items.
+The fresh vegetables and fresh fruits, which were order more than 150,000 time, were order much more often than all the other items. They are almost the 5 times of the average order time of all the other items. The packaged vegetables fruits were ordered about 80,000 times. All the other products were order about 20,000 time. 
 
 ```{r}
 instacart_df %>% 
@@ -76,7 +77,7 @@ instacart_df %>%
 
 part 3 table of top three product in baking ingredients”, “dog food care”, and “packaged vegetables fruits” listed in aisles.
 
-The packaged vegetables fruits were ordered about ten time more often than other two types of items. Among packaged vegetables fruits, the organic baby spinach was ordered twice more often tha other two types of items.
+The packaged vegetables fruits were ordered about ten time more often than other two types of items. Among packaged vegetables fruits, the organic baby spinach was ordered twice more often the other two types of items. the products in dog food care aisle were order about 30 times, which was 10% of the order time of baking ingredients. People are in great need of packaged vegetable fruits than other two aisles.
 
 ```{r}
 pop_product = 
@@ -182,7 +183,7 @@ location_df
 
 part 2(b) plot of average value within a state over time
 
-The overall trend of the average data value within the states is slightly decreased from 2002 to 2010. Some states includes, FL, IL, LA, WY, CA, CT, experience extreme average data value change between 2004 and 2008. Some states includes, ME, MI, MS, MT, NC has relatively stable average data trends. Among these state, WY has the lowest average data value. 
+The overall trend of the average data value of Excellent response within the states is slightly decreased from 2002 to 2010. Some states includes, FL, IL, LA, WY, CA, CT, experience extreme average data value of Excellent response change between 2004 and 2008. Some states includes, ME, MI, MS, MT, NC has relatively stable average data of Excellent response trends. Among these state, WY has the lowest average data value of Excellent response. 
 
 ```{r}
 state_plot_df =
@@ -201,7 +202,7 @@ state_plot_df =
 state_plot_df
 ```
 
-part 2(c) two panel plot from 2006 and 2010 at NY
+part 2(c) two panel plot from 2006 and 2010 at NY state
 
 The observation of response in NY states includes more Good, Very good, and Excellent than Poor and Fair. And we have observed little difference of the overall response between 2006 and 2010. Among counties in NY state, we observed more Very good and Excellent response in Westchester county in 2010. And we observed more Poor to Good response in Bronx county in 2010. However, 2006 has different observations of response. We oberved more Poor and Fair response in Queens county, and more Good to Excellent response in Nassau county.  
 
@@ -249,7 +250,7 @@ accel_data =
 
 part 2 total activity over the day
 
-The figure of day_id over activity_day did not show any special trend of daily activity. However, activity distributed closely around 4e+05 from day 10 to day 20.
+The figure of day_id over activity_day did not show any special overall trend of daily activity. However, activity distributed closely around 4e+05 from day 10 to day 20. The activities in Monday increased from day 1 to day 17, and decreased to 4e+05 at day 23. The activity in Tuesday and Wednesday are relatively stable around 4e+05. The activities in Thursday remained stable around 4e+05 before day 26 and increased to 5.5e+05 until the end. The activities in Friday dropped from 5e+05 at day 1 to 1.5e+05 at day 22 and increased back to 5.5e+05 at the last day. The activities in Saturday and Sunday dropped significantly from day 1 to day 35. 
 
 ```{r}
 accel_day =
@@ -263,7 +264,8 @@ accel_day =
     viridis::scale_color_viridis(
     name = "Counties",
     discrete = TRUE
-  )
+  ) +
+  geom_smooth()
 accel_day
 ```
 
